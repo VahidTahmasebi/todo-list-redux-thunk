@@ -46,6 +46,20 @@ export const toggleCompleteAsync = createAsyncThunk(
   },
 );
 
+export const deleteAsyncTodo = createAsyncThunk(
+  "todos/deleteAsyncTodo",
+  async (payload, { rejectWithValue }) => {
+    try {
+      await axios.delete(
+        `https://jsonplaceholder.typicode.com/todos/${payload.id}`,
+      );
+      return { id: payload.id };
+    } catch (error) {
+      return rejectWithValue([], error);
+    }
+  },
+);
+
 // store state
 const initialState = {
   todos: [],
@@ -73,6 +87,9 @@ const todoSlice = createSlice({
     [toggleCompleteAsync.fulfilled]: (state, action) => {
       const selectedTodo = state.todos.find((t) => t.id === action.payload.id);
       selectedTodo.completed = action.payload.completed;
+    },
+    [deleteAsyncTodo.fulfilled]: (state, action) => {
+      state.todos = state.todos.filter((t) => t.id !== action.payload.id);
     },
   },
 });
