@@ -9,7 +9,7 @@ function App() {
   return (
     <Provider store={store}>
       <div className='App'>
-        <div className='App Container'>
+        <div className='App container'>
           <AddTodoForm />
           <TotalCompleteItem />
           <TodoList />
