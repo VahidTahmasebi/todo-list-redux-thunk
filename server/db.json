@@ -1,0 +1,14 @@
+{
+  "todos": [
+    {
+      "title": "first todo",
+      "completed": true,
+      "id": 1673861512692
+    },
+    {
+      "id": 1673861519221,
+      "title": "second todo",
+      "completed": false
+    }
+  ]
+}

@@ -6,9 +6,7 @@ export const getAsyncTodos = createAsyncThunk(
   "todos/getAsyncTodos",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/todos",
-      );
+      const response = await axios.get("http://localhost:3002/todos");
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -21,10 +19,11 @@ export const addAsyncTodos = createAsyncThunk(
   "todos/AddAsyncTodos",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "https://jsonplaceholder.typicode.com/todos",
-        { id: Date.now(), title: payload.title, completed: false },
-      );
+      const response = await axios.post("http://localhost:3002/todos", {
+        id: Date.now(),
+        title: payload.title,
+        completed: false,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue([], error);
@@ -36,7 +35,7 @@ export const toggleCompleteAsync = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `https://jsonplaceholder.typicode.com/todos/${payload.id}`,
+        `http://localhost:3002/todos/${payload.id}`,
         { title: payload.title, completed: payload.completed },
       );
       return response.data;
@@ -50,9 +49,7 @@ export const deleteAsyncTodo = createAsyncThunk(
   "todos/deleteAsyncTodo",
   async (payload, { rejectWithValue }) => {
     try {
-      await axios.delete(
-        `https://jsonplaceholder.typicode.com/todos/${payload.id}`,
-      );
+      await axios.delete(`http://localhost:3002/todos/${payload.id}`);
       return { id: payload.id };
     } catch (error) {
       return rejectWithValue([], error);
@@ -83,6 +80,7 @@ const todoSlice = createSlice({
     },
     [addAsyncTodos.fulfilled]: (state, action) => {
       state.todos.push(action.payload);
+      
     },
     [toggleCompleteAsync.fulfilled]: (state, action) => {
       const selectedTodo = state.todos.find((t) => t.id === action.payload.id);
