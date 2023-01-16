@@ -16,6 +16,21 @@ export const getAsyncTodos = createAsyncThunk(
   },
 );
 
+export const addSyncTodos = createAsyncThunk(
+  "todos/AddSyncTodos",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        "https://jsonplaceholder.typicode.com/todos",
+        { id: Date.now(), title: payload.title, completed: false },
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue([], error);
+    }
+  },
+);
+
 const todoSlice = createSlice({
   name: "todos",
   extraReducers: {
@@ -27,6 +42,9 @@ const todoSlice = createSlice({
     },
     [getAsyncTodos.rejected]: (state, { payload }) => {
       return { ...state, todos: [], loading: false, error: payload.message };
+    },
+    [addSyncTodos.fulfilled]: (state, action) => {
+      state.todos.push(action.payload);
     },
   },
 });
