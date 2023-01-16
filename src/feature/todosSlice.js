@@ -16,8 +16,8 @@ export const getAsyncTodos = createAsyncThunk(
   },
 );
 
-export const addSyncTodos = createAsyncThunk(
-  "todos/AddSyncTodos",
+export const addAsyncTodos = createAsyncThunk(
+  "todos/AddAsyncTodos",
   async (payload, { rejectWithValue }) => {
     try {
       const response = await axios.post(
@@ -31,8 +31,15 @@ export const addSyncTodos = createAsyncThunk(
   },
 );
 
+const initialState = {
+  todos: [],
+  error: null,
+  loading: false,
+};
+
 const todoSlice = createSlice({
   name: "todos",
+  initialState,
   extraReducers: {
     [getAsyncTodos.fulfilled]: (state, action) => {
       return { ...state, todos: action.payload, loading: false, error: null };
@@ -43,7 +50,7 @@ const todoSlice = createSlice({
     [getAsyncTodos.rejected]: (state, { payload }) => {
       return { ...state, todos: [], loading: false, error: payload.message };
     },
-    [addSyncTodos.fulfilled]: (state, action) => {
+    [addAsyncTodos.fulfilled]: (state, action) => {
       state.todos.push(action.payload);
     },
   },
