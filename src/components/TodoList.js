@@ -10,7 +10,7 @@ const TodoList = () => {
   // initial mount
   useEffect(() => {
     dispatch(getAsyncTodos());
-  });
+  }, []);
 
   if (loading) return <p>loading...</p>;
   if (error) return <p>{error}</p>;
