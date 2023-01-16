@@ -11,6 +11,7 @@ const AddTodoForm = () => {
     e.preventDefault();
     // update dispatch title
     dispatch(addAsyncTodos({ title: valueInput }));
+    setValueInput("");
   };
 
   return (
